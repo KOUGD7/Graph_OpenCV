@@ -315,7 +315,7 @@ def compareLables(alpha1, label1):
     cv2.imshow('TEST1', label)
     cv2.imshow('TEST2', intersect)
 
-    key = cv2.waitKey(30000)  # pauses for 3 seconds before fetching next image
+    key = cv2.waitKey(3000)  # pauses for 3 seconds before fetching next image
     if key == 27:  # if ESC is pressed, exit loop
         cv2.destroyAllWindows()
         #break"""
