@@ -60,7 +60,7 @@ def get_connected_components(I, min, max):
     for point in rects:
         start = point[0]
         end = point[1]
-        cv2.rectangle(img, start, end, (250, 255, 2), 2)
+        #cv2.rectangle(img, start, end, (250, 255, 2), 2)
 
     # remove all labels
     sizes = stats[1:, -1];
@@ -303,12 +303,17 @@ def compareLables(alpha1, label1):
     alpha = alpha.copy()
     alpha = cv2.resize(alpha, (0, 0), fx=xScale, fy=yScale)
 
+    kernel = np.ones((3, 3), np.uint8)
+    #alpha = cv2.dilate(alpha, kernel, iterations=1)
+    #label=  cv2.dilate(label, kernel, iterations=1)
+
     intersect = cv2.bitwise_and(alpha, label)
+    #intersect = cv2.morphologyEx(intersect, cv2.MORPH_OPEN, kernel)
 
     intersect = np.uint8(intersect)
-    #cv2.imshow('TEST', alpha)
-    #cv2.imshow('TEST1', label)
-    #cv2.imshow('TEST2', intersect)
+    cv2.imshow('TEST', alpha)
+    cv2.imshow('TEST1', label)
+    cv2.imshow('TEST2', intersect)
 
     output = cv2.connectedComponentsWithStats(intersect)
 
@@ -320,7 +325,12 @@ def compareLables(alpha1, label1):
     labelStats = output[2]
     labelAreas = labelStats[:, 4]
 
-    return labelAreas
+    height, width = intersect.shape
+
+    print([labelAreas, (height * width)])
+    simularity_idex = sum(labelAreas[1:])/(height * width)
+
+    return simularity_idex
 
 
 def detect_alphabet(labels, alphabet, alpharange):
@@ -351,21 +361,29 @@ def detect_alphabet(labels, alphabet, alpharange):
         xw, yh = lowerCorner
         subimages.append((imgL[y:yh, x:xw], rec))
 
+
     countS = 0
-    countT = 0
-    for t in templates:
-        for s in subimages:
-            subS, recS = s
+    for s in subimages:
+        countT = 0
+        maxIndex = 0
+        alphaindex = -1
+        for t in templates:
             #subT, rT = t
 
-            upperCorner, lowerCorner = recS
-            x, y = upperCorner
+            sindex = compareLables(t, s)
+            print(["SI: ",sindex])
 
-            cv2.putText(img, "L"+ str(countT), (x, y), cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0))
-            area = compareLables(t, s)
-            countS+=1
-            pass
-        countT+=1
+            if sindex > maxIndex:
+                maxIndex = sindex
+                alphaindex = countT
+
+            countT+=1
+
+        subS, recS = s
+        upperCorner, lowerCorner = recS
+        cv2.putText(img, "L" + str(alphaindex), upperCorner, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0))
+        countS+=1
+
     print(("num alphabet/ numberlabels", len(templates), len(subimages)))
 
     cv2.imshow('ConnectL', imgL)
