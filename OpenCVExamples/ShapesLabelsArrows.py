@@ -311,9 +311,14 @@ def compareLables(alpha1, label1):
     #intersect = cv2.morphologyEx(intersect, cv2.MORPH_OPEN, kernel)
 
     intersect = np.uint8(intersect)
-    cv2.imshow('TEST', alpha)
+    """cv2.imshow('TEST', alpha)
     cv2.imshow('TEST1', label)
     cv2.imshow('TEST2', intersect)
+
+    key = cv2.waitKey(30000)  # pauses for 3 seconds before fetching next image
+    if key == 27:  # if ESC is pressed, exit loop
+        cv2.destroyAllWindows()
+        #break"""
 
     output = cv2.connectedComponentsWithStats(intersect)
 
