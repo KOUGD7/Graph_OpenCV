@@ -366,13 +366,15 @@ def detect_alphabet(labels, alphabet, alpharange):
         xw, yh = lowerCorner
         subimages.append((imgL[y:yh, x:xw], rec))
 
-
+    mapping = {}
+    newRecs = []
     countS = 0
     for s in subimages:
         countT = 0
         maxIndex = 0
         alphaindex = -1
         for t in templates:
+            mapping[countT] = t
             #subT, rT = t
 
             sindex = compareLables(t, s)
@@ -381,19 +383,20 @@ def detect_alphabet(labels, alphabet, alpharange):
             if sindex > maxIndex:
                 maxIndex = sindex
                 alphaindex = countT
-
             countT+=1
 
         subS, recS = s
         upperCorner, lowerCorner = recS
         cv2.putText(img, "L" + str(alphaindex), upperCorner, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0))
+
+        newRecs.append((alphaindex, recS))
         countS+=1
 
     print(("num alphabet/ numberlabels", len(templates), len(subimages)))
 
     cv2.imshow('ConnectL', imgL)
     cv2.imshow('ConnectAA', imgAA)
-    return imgL
+    return mapping, newRecs
 
 
 
@@ -452,6 +455,8 @@ if __name__ == "__main__":
 
         alphaimg = cv2.imread('alphabet.jpg')
         testaa = detect_alphabet(labels, alphaimg, maxAlpha)
+        #map, recs = testaa
+        #print(map)
 
 
         cv2.imshow('Connect', img)
