@@ -399,6 +399,47 @@ def detect_alphabet(labels, alphabet, alpharange):
     return mapping, newRecs
 
 
+#CLASSES FOR REPRESENTATION OF DFA/ GRAPH
+class State:
+    def __init__(self, r, c):
+        self.radius = r
+        self.centre = c
+        self.out_arrows = []
+        self.accept = False
+
+    def __init__(self, r, c, l):
+        self.radius = r
+        self.centre = c
+        self.label = l
+        self.out_arrows = []
+        self.accept = False
+
+    def add_arrow(self, t):
+        self.out_arrows.append(t)
+
+    def set_final(self):
+        self.accept = True
+
+class Arrow:
+    def __init__(self, t, h, l):
+        self.tail = t
+        self.head = h
+        self.label = l
+        self.next = None
+
+    def add_next(self, s):
+        self.next = s
+
+class Label:
+    def __init__(self, v, r):
+        self.value = v
+        self.rec = r
+
+    def __init__(self, v, r, s):
+        self.value = v
+        self.rec = r
+        self.simage = s
+
 
 def nothing(x):
     #print(x)
