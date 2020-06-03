@@ -216,6 +216,8 @@ def get_arrows(binary):
 
     contours, _ = cv2.findContours(Ithresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     i = 0
+
+    Arrows = []
     for contour in contours:
         approx = cv2.approxPolyDP(contour, 0.02 * cv2.arcLength(contour, True), True)
 
@@ -278,7 +280,9 @@ def get_arrows(binary):
 
         cv2.arrowedLine(img, start_point, end_point, (0, 0, 255), 3, 5)
         cv2.circle(img, (cx, cy), 3, (200, 10, 200), -1)
-    return Ithresh
+
+        Arrows.append((start_point, end_point))
+    return Ithresh, Arrows
 
 
 def compareLables(alpha1, label1):
@@ -332,7 +336,7 @@ def compareLables(alpha1, label1):
 
     height, width = intersect.shape
 
-    print([labelAreas, (height * width)])
+    #print([labelAreas, (height * width)])
     simularity_idex = sum(labelAreas[1:])/(height * width)
 
     return simularity_idex
@@ -378,7 +382,7 @@ def detect_alphabet(labels, alphabet, alpharange):
             #subT, rT = t
 
             sindex = compareLables(t, s)
-            print(["SI: ",sindex])
+            #print(["SI: ",sindex])
 
             if sindex > maxIndex:
                 maxIndex = sindex
@@ -392,7 +396,7 @@ def detect_alphabet(labels, alphabet, alpharange):
         newRecs.append((alphaindex, recS))
         countS+=1
 
-    print(("num alphabet/ numberlabels", len(templates), len(subimages)))
+    #print(("num alphabet/ numberlabels", len(templates), len(subimages)))
 
     cv2.imshow('ConnectL', imgL)
     cv2.imshow('ConnectAA', imgAA)
@@ -407,12 +411,12 @@ class State:
         self.out_arrows = []
         self.accept = False
 
-    def __init__(self, r, c, l):
+    """def __init__(self, r, c, l):
         self.radius = r
         self.centre = c
         self.label = l
         self.out_arrows = []
-        self.accept = False
+        self.accept = False"""
 
     def add_arrow(self, t):
         self.out_arrows.append(t)
@@ -421,27 +425,66 @@ class State:
         self.accept = True
 
 class Arrow:
-    def __init__(self, t, h, l):
+    def __init__(self, t, h):
         self.tail = t
         self.head = h
-        self.label = l
+        self.label = None
         self.next = None
 
     def add_next(self, s):
         self.next = s
+
+    def add_label(self, l):
+        self.label = l
 
 class Label:
     def __init__(self, v, r):
         self.value = v
         self.rec = r
 
-    def __init__(self, v, r, s):
+    """def __init__(self, v, r, s):
         self.value = v
         self.rec = r
-        self.simage = s
+        self.simage = s"""
+
+
+def associator(states, arrows, labels):
+    #testing
+    ls = len(states[0])
+    la = len(arrows)
+    ll = len(labels[1])
+
+    radii, centres, contours = states
+    states = zip(radii, centres)
+    Ostates = []
+    for s in states:
+        radius, centre= s
+        state = State(radius, centre)
+        Ostates.append(state)
+
+    Oarrows = []
+    for a in arrows:
+        start, end  = a
+        arrow = Arrow(start, end)
+        Oarrows.append(arrow)
+
+    Olabels = []
+    mapping, labels1 = labels
+    for l in labels1:
+        value, rec = l
+        label = Label(value, rec)
+        Olabels.append(label)
+
+    print(("#states #arrows #labels", ls, la, ll))
+    print((len(Ostates), len(Oarrows), len(Olabels)))
+    return None
 
 
 def nothing(x):
+    #print(x)
+    pass
+
+def assoc(x):
     #print(x)
     pass
 
@@ -449,12 +492,13 @@ if __name__ == "__main__":
     
     cv2.namedWindow('Connect')
     cv2.resizeWindow('Connect', 600, 600)
-    cv2.createTrackbar('Max Area', 'Connect', 0, 1000, nothing)
-    cv2.createTrackbar('Min Area', 'Connect', 0, 1000, nothing)
     cv2.createTrackbar('Max Radius', 'Connect', 0, 1000, nothing)
     cv2.createTrackbar('Min Radius', 'Connect', 0, 1000, nothing)
+    cv2.createTrackbar('Max Area', 'Connect', 0, 1000, nothing)
+    cv2.createTrackbar('Min Area', 'Connect', 0, 1000, nothing)
     cv2.createTrackbar('Alphabet', 'Connect', 0, 10000, nothing)
     cv2.createTrackbar('Circle Off.', 'Connect', 0, 100, nothing)
+    cv2.createTrackbar('Create Graph', 'Connect', 0, 1, assoc)
 
     while (1):
 
@@ -490,15 +534,18 @@ if __name__ == "__main__":
         # Combine mask with binary image
         Ithresh = cv2.bitwise_and(Ithresh, Ithresh, mask=mask)
 
-        Ithresh = get_arrows(Ithresh)
+        Ithresh, arrows = get_arrows(Ithresh)
 
         cv2.imshow('Connect2', Ithresh)
 
         alphaimg = cv2.imread('alphabet.jpg')
-        testaa = detect_alphabet(labels, alphaimg, maxAlpha)
+        newLabels = detect_alphabet(labels, alphaimg, maxAlpha)
         #map, recs = testaa
         #print(map)
 
+        graph_check = cv2.getTrackbarPos('Create Graph', 'Connect')
+        if graph_check > 0:
+            graph = associator(shapes, arrows, newLabels)
 
         cv2.imshow('Connect', img)
         k = cv2.waitKey(1) & 0xFF
@@ -506,20 +553,3 @@ if __name__ == "__main__":
         if k == 27:
             break
 
-
-
-        '''rectsL, centroidsL, _, imgL = labels
-        cv2.imshow('ConnectL', imgL)
-        count = 1
-        print(len(rectsL))
-        for rec in rectsL:
-            upperCorner, lowerCorner = rec
-            x, y = upperCorner
-            xw, yh = lowerCorner
-            subimg = imgL[y:yh, x:xw]
-            cv2.imshow('Subimage' + str(count), subimg)
-            count+=1'''
-
-        #cv2.destroyAllWindows()
-        #print(rectsL)
-        #time.sleep(100)
