@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from scipy.spatial import distance as dist
 from imutils import perspective
-import time
+import math
 
 # Find Labels using conected component
 def get_connected_components(I, min, max):
@@ -176,7 +176,7 @@ def get_states(I, min, max, off):
             cv2.circle(I, centre, 2, (0, 0, 255), 1)
             cv2.putText(I, "S " + str(state), centre, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0))
             state += 1
-            centres2.append(center)
+            centres2.append(centre)
             radii2.append(radius)
             contours2.append(contour)
             pass
@@ -448,6 +448,11 @@ class Label:
         self.simage = s"""
 
 
+def distance (A, B):
+    x1, y1 = A
+    x2, y2 = B
+    return math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) )
+
 def associator(states, arrows, labels):
     #testing
     ls = len(states[0])
@@ -456,11 +461,12 @@ def associator(states, arrows, labels):
 
     radii, centres, contours = states
     states = zip(radii, centres)
-    Ostates = []
+    #set for O(1) deletion
+    Ostates = set()
     for s in states:
         radius, centre= s
         state = State(radius, centre)
-        Ostates.append(state)
+        Ostates.add(state)
 
     Oarrows = []
     for a in arrows:
@@ -474,6 +480,25 @@ def associator(states, arrows, labels):
         value, rec = l
         label = Label(value, rec)
         Olabels.append(label)
+
+    removal =[]
+    for state in Ostates:
+        for stateN in Ostates:
+            dist = distance(state.centre, stateN.centre)
+            #print(dist)
+            if dist < (state.radius - stateN.radius):
+                #highlight final state
+                cv2.circle(img, stateN.centre, stateN.radius, (255,0,255), 2)
+                #cv2.circle(img, state.centre, state.radius, (255, 0, 255), 2)
+                removal.append(stateN)
+                state.set_final()
+            pass
+
+    #print(len(removal))
+    for el in removal:
+        if el in Ostates:
+            Ostates.remove(el)
+
 
     print(("#states #arrows #labels", ls, la, ll))
     print((len(Ostates), len(Oarrows), len(Olabels)))
