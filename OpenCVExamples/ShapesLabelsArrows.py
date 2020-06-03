@@ -408,7 +408,7 @@ class State:
     def __init__(self, r, c):
         self.radius = r
         self.centre = c
-        self.out_arrows = []
+        self.out_arrows = {}
         self.accept = False
 
     """def __init__(self, r, c, l):
@@ -418,8 +418,8 @@ class State:
         self.out_arrows = []
         self.accept = False"""
 
-    def add_arrow(self, t):
-        self.out_arrows.append(t)
+    def add_arrow(self, key, value):
+        self.out_arrows[key] = value
 
     def set_final(self):
         self.accept = True
@@ -431,21 +431,30 @@ class Arrow:
         self.label = None
         self.next = None
 
+    def get_mid(self):
+        return midpoint(self.tail, self.head)
+
     def add_next(self, s):
         self.next = s
 
     def add_label(self, l):
         self.label = l
 
+
 class Label:
     def __init__(self, v, r):
         self.value = v
         self.rec = r
 
-    """def __init__(self, v, r, s):
-        self.value = v
-        self.rec = r
-        self.simage = s"""
+    def get_centre(self):
+        start, end = self.rec
+        return midpoint(start, end)
+
+    def min_circle(self):
+        #print(self.rec)
+        centre, radius = cv2.minEnclosingCircle(np.float32(self.rec))
+        return centre, radius
+
 
 
 def distance (A, B):
@@ -454,6 +463,8 @@ def distance (A, B):
     return math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) )
 
 def associator(states, arrows, labels):
+
+    root = []
     #testing
     ls = len(states[0])
     la = len(arrows)
@@ -474,13 +485,14 @@ def associator(states, arrows, labels):
         arrow = Arrow(start, end)
         Oarrows.append(arrow)
 
-    Olabels = []
+    Olabels = set()
     mapping, labels1 = labels
     for l in labels1:
         value, rec = l
         label = Label(value, rec)
-        Olabels.append(label)
+        Olabels.add(label)
 
+    #DETECTING FINAL STATES
     removal =[]
     for state in Ostates:
         for stateN in Ostates:
@@ -492,17 +504,72 @@ def associator(states, arrows, labels):
                 #cv2.circle(img, state.centre, state.radius, (255, 0, 255), 2)
                 removal.append(stateN)
                 state.set_final()
-            pass
-
-    #print(len(removal))
     for el in removal:
         if el in Ostates:
             Ostates.remove(el)
 
+    #REMOVAL OF LABELS IN STATE
+    labelremoval = []
+    for state in Ostates:
+        for label in Olabels:
+            lcentre, lradius = label.min_circle()
+            dist = distance(state.centre, lcentre)
+            if dist < (state.radius - lradius):
+                # highlight removed labels
+                start, end = label.rec
+                cv2.rectangle(img, start, end, (250, 255, 2), 2)
+                labelremoval.append(label)
+        for el in labelremoval:
+            if el in Olabels:
+                Olabels.remove(el)
+
+    #ADD LABELS TO ARROWS
+    for a in Oarrows:
+        mindist = 10**10
+        minlabel = None
+        for l in Olabels:
+            dist = distance(a.get_mid(), l.get_centre())
+            if dist < mindist and dist< distance(a.head, a.tail):
+                minlabel = l
+                mindist = dist
+        if minlabel:
+            a.add_label(minlabel)
+            Olabels.remove(minlabel)
+
+    #DETECTING CONNECTION BETWEEN STATES AND ARROWS
+    for a in Oarrows:
+        minhead =10**10
+        mintail = 10**10
+        headState = None
+        tailState = None
+        for s in Ostates:
+            disthead = distance(s.centre, a.head) - s.radius
+            disttail = distance(s.centre, a.tail) - s.radius
+            if disthead < minhead:
+                headState = s
+                minhead = disthead
+            if disttail < mintail:
+                tailState = s
+                mintail = disttail
+
+        a.add_next(headState)
+        #If state has label (not start state)
+        if a.label:
+            tailState.add_arrow(a.label.value, a)
+        else:
+            root.append(a)
+
+
+    """for state in Ostates:
+        print((state.centre, state.accept, state.out_arrows))
+    for arrow in Oarrows:
+        print((arrow.head, arrow.next, arrow.label))
 
     print(("#states #arrows #labels", ls, la, ll))
-    print((len(Ostates), len(Oarrows), len(Olabels)))
-    return None
+    print((len(Ostates), len(Oarrows), len(Olabels)))"""
+
+    print(root)
+    return root
 
 
 def nothing(x):
@@ -523,7 +590,7 @@ if __name__ == "__main__":
     cv2.createTrackbar('Min Area', 'Connect', 0, 1000, nothing)
     cv2.createTrackbar('Alphabet', 'Connect', 0, 10000, nothing)
     cv2.createTrackbar('Circle Off.', 'Connect', 0, 100, nothing)
-    cv2.createTrackbar('Create Graph', 'Connect', 0, 1, assoc)
+    cv2.createTrackbar('Graph', 'Connect', 0, 1, assoc)
 
     while (1):
 
@@ -568,7 +635,7 @@ if __name__ == "__main__":
         #map, recs = testaa
         #print(map)
 
-        graph_check = cv2.getTrackbarPos('Create Graph', 'Connect')
+        graph_check = cv2.getTrackbarPos('Graph', 'Connect')
         if graph_check > 0:
             graph = associator(shapes, arrows, newLabels)
 
