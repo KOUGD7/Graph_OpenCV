@@ -5,6 +5,10 @@ from scipy.spatial import distance as dist
 from imutils import perspective
 import math
 
+import tkinter
+import tkinter.ttk
+#import tkinter as tk
+
 # Find Labels using conected component
 def get_connected_components(I, min, max):
     # Convert to gray
@@ -278,7 +282,7 @@ def get_arrows(binary):
         start_point = tuple(int(t) for t in start_point)
         end_point = tuple(int(t) for t in end_point)
 
-        cv2.arrowedLine(img, start_point, end_point, (0, 0, 255), 3, 5)
+        cv2.arrowedLine(img, start_point, end_point, (0, 0, 255), 3, 5, tipLength = 0.2)
         cv2.circle(img, (cx, cy), 3, (200, 10, 200), -1)
 
         Arrows.append((start_point, end_point))
@@ -391,7 +395,7 @@ def detect_alphabet(labels, alphabet, alpharange):
 
         subS, recS = s
         upperCorner, lowerCorner = recS
-        cv2.putText(img, "L" + str(alphaindex), upperCorner, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0))
+        cv2.putText(img, ""+str(alphaindex), upperCorner, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0), thickness= 2)
 
         newRecs.append((alphaindex, recS))
         countS+=1
@@ -454,7 +458,6 @@ class Label:
         #print(self.rec)
         centre, radius = cv2.minEnclosingCircle(np.float32(self.rec))
         return centre, radius
-
 
 
 def distance (A, B):
@@ -559,30 +562,52 @@ def associator(states, arrows, labels):
         else:
             root= a
 
-
-    """for state in Ostates:
+    """
+    TESTING
+    for state in Ostates:
         print((state.centre, state.accept, state.out_arrows))
     for arrow in Oarrows:
         print((arrow.head, arrow.next, arrow.label))
 
     print(("#states #arrows #labels", ls, la, ll))
-    print((len(Ostates), len(Oarrows), len(Olabels)))"""
+    print((len(Ostates), len(Oarrows), len(Olabels)))
+    print(root)"""
 
-    print(root)
     return root
+
+
+def create_keyboard(mapping):
+    input =''
+    master = tkinter.Tk()
+    e = tkinter.Entry(master)
+    e.pack()
+
+    e.focus_set()
+
+    def callback():
+        nonlocal input
+        input = e.get()
+        master.destroy()
+        #print (e.get())  # This is the text you may want to use later
+
+
+    b = tkinter.Button(master, text="OK", width=10, command=callback)
+    b.pack()
+
+    master.mainloop()
+    print(input)
+    return input
 
 
 def nothing(x):
     #print(x)
     pass
 
-def assoc(x):
-    #print(x)
-    pass
 
 if __name__ == "__main__":
     
     cv2.namedWindow('Connect')
+    cv2.namedWindow('Connect0')
     cv2.resizeWindow('Connect', 600, 600)
     cv2.createTrackbar('Max Radius', 'Connect', 0, 1000, nothing)
     cv2.createTrackbar('Min Radius', 'Connect', 0, 1000, nothing)
@@ -590,7 +615,7 @@ if __name__ == "__main__":
     cv2.createTrackbar('Min Area', 'Connect', 0, 1000, nothing)
     cv2.createTrackbar('Alphabet', 'Connect', 0, 10000, nothing)
     cv2.createTrackbar('Circle Off.', 'Connect', 0, 100, nothing)
-    cv2.createTrackbar('Graph', 'Connect', 0, 1, assoc)
+    cv2.createTrackbar('Graph', 'Connect', 0, 1, nothing)
 
     while (1):
 
@@ -638,30 +663,30 @@ if __name__ == "__main__":
         graph_check = cv2.getTrackbarPos('Graph', 'Connect')
         if graph_check > 0:
             graph = associator(shapes, arrows, newLabels)
+            #UPDATE IMAGE WITH NEW INFO
+            cv2.imshow('Connect', img)
+            #input = "111111111111111101"
 
-            input = "111111111111111101"
-            curr = graph.next
-            count = 0
-            for el in input:
-                if int(el) in curr.out_arrows:
-                    curr = curr.out_arrows[int(el)]
-                    curr = curr.next
+            mapping, recs = newLabels
+            while True:
+                input = create_keyboard(mapping)
+                curr = graph.next
+                count = 0
+                for el in input:
+                    if int(el) in curr.out_arrows:
+                        curr = curr.out_arrows[int(el)]
+                        curr = curr.next
+                    else:
+                        print("REJECTED")
+                    count+=1
+
+                if curr.accept and count == len(input):
+                    print("ACCEPT")
                 else:
                     print("REJECTED")
-                count+=1
-                print(count)
-
-            if curr.accept and count == len(input):
-                print("ACCEPT")
-            else:
-                print("REJECTED")
-
-            k = cv2.waitKey(30000) & 0xFF
-            if k == 27:
-                break
-
 
         cv2.imshow('Connect', img)
+        cv2.imshow('Connect0', cimg)
         k = cv2.waitKey(1) & 0xFF
 
         if k == 27:
