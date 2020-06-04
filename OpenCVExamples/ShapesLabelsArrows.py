@@ -178,7 +178,7 @@ def get_states(I, min, max, off):
         if not ((px - off < x < px + off) and (py - off < y < py + off) and (pr - off < radius < pr + off)):
             cv2.circle(I, centre, radius, (255, 0, 0), 2)
             cv2.circle(I, centre, 2, (0, 0, 255), 1)
-            cv2.putText(I, "S " + str(state), centre, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0))
+            #cv2.putText(I, "S " + str(state), centre, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0))
             state += 1
             centres2.append(centre)
             radii2.append(radius)
@@ -670,6 +670,9 @@ if __name__ == "__main__":
             mapping, recs = newLabels
             while True:
                 input = create_keyboard(mapping)
+                if input in ['exit', 'quit', 'stop']:
+                    break
+
                 curr = graph.next
                 count = 0
                 for el in input:
