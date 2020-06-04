@@ -464,7 +464,7 @@ def distance (A, B):
 
 def associator(states, arrows, labels):
 
-    root = []
+    root = None
     #testing
     ls = len(states[0])
     la = len(arrows)
@@ -557,7 +557,7 @@ def associator(states, arrows, labels):
         if a.label:
             tailState.add_arrow(a.label.value, a)
         else:
-            root.append(a)
+            root= a
 
 
     """for state in Ostates:
@@ -638,6 +638,28 @@ if __name__ == "__main__":
         graph_check = cv2.getTrackbarPos('Graph', 'Connect')
         if graph_check > 0:
             graph = associator(shapes, arrows, newLabels)
+
+            input = "111111111111111101"
+            curr = graph.next
+            count = 0
+            for el in input:
+                if int(el) in curr.out_arrows:
+                    curr = curr.out_arrows[int(el)]
+                    curr = curr.next
+                else:
+                    print("REJECTED")
+                count+=1
+                print(count)
+
+            if curr.accept and count == len(input):
+                print("ACCEPT")
+            else:
+                print("REJECTED")
+
+            k = cv2.waitKey(30000) & 0xFF
+            if k == 27:
+                break
+
 
         cv2.imshow('Connect', img)
         k = cv2.waitKey(1) & 0xFF
