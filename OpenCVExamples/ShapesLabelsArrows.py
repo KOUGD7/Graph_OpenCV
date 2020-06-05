@@ -17,6 +17,10 @@ def get_connected_components(I, min, max):
     # Threshold
     ret, Ithresh = cv2.threshold(Igray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
+    kernel = np.ones((2, 2), np.uint8)
+    Ithresh= cv2.dilate(Ithresh, kernel, iterations=1)
+    Ithresh  = cv2.morphologyEx(Ithresh , cv2.MORPH_CLOSE, kernel)
+
     # Keep only small components but not to small
     output = cv2.connectedComponentsWithStats(Ithresh)
 
@@ -86,7 +90,10 @@ def get_connected_components(I, min, max):
     return rects, centroids2, img2, img3  # , num_labels2, labels2, stats2
 
 
-def get_states(I, min, max, off):
+def get_states(I, min, max, off, quality):
+
+    #quality = 0.85
+
     # Convert to gray
     Igray = cv2.cvtColor(I, cv2.COLOR_RGB2GRAY)
 
@@ -102,7 +109,7 @@ def get_states(I, min, max, off):
 
     #contours = [contours[i] for i in range(len(contours)) if hierarchy[i][3] < 0]
 
-    quality = 0.78
+
 
     i = 0
     radii = []
@@ -615,6 +622,7 @@ if __name__ == "__main__":
     cv2.createTrackbar('Min Area', 'Connect', 0, 1000, nothing)
     cv2.createTrackbar('Alphabet', 'Connect', 0, 10000, nothing)
     cv2.createTrackbar('Circle Off.', 'Connect', 0, 100, nothing)
+    cv2.createTrackbar('Image', 'Connect', 0, 10, nothing)
     cv2.createTrackbar('Graph', 'Connect', 0, 1, nothing)
 
     while (1):
@@ -626,16 +634,30 @@ if __name__ == "__main__":
         maxAlpha = cv2.getTrackbarPos('Alphabet', 'Connect')
         offset_between_Cirle = cv2.getTrackbarPos('Circle Off.', 'Connect')
 
-        # Read image
-        img = cv2.imread("statemachineone.jpg")
-        #img = cv2.imread("test1.jpg")
+        select = cv2.getTrackbarPos('Image', 'Connect')
+
+        if select == 0:
+            # Read image
+            img = cv2.imread("statemachineone.jpg")
+            alphaimg = cv2.imread('alphabet.jpg')
+            eff = 0.78
+        elif select == 2:
+            img = cv2.imread("normal.png")
+            alphaimg = cv2.imread('alphabet2.jpg')
+            eff = 0.68
+        else:
+            img = cv2.imread("DFATEST.jpg")
+            alphaimg = cv2.imread('alphabet1.jpg')
+            eff = 0.85
+
+
 
         # create different copy to use to labels from the circles
         cimg = img.copy()
 
         labels = get_connected_components(cimg, minA, maxA)
 
-        shapes = get_states(img, minR, maxR, offset_between_Cirle)
+        shapes = get_states(img, minR, maxR, offset_between_Cirle, eff)
 
         # REMOVING CIRCLES AND LABELS
         # retrieves binary img with removed labels
@@ -655,7 +677,7 @@ if __name__ == "__main__":
 
         cv2.imshow('Connect2', Ithresh)
 
-        alphaimg = cv2.imread('alphabet.jpg')
+
         newLabels = detect_alphabet(labels, alphaimg, maxAlpha)
         #map, recs = testaa
         #print(map)
@@ -681,6 +703,7 @@ if __name__ == "__main__":
                         curr = curr.next
                     else:
                         print("REJECTED")
+                        break
                     count+=1
 
                 if curr.accept and count == len(input):

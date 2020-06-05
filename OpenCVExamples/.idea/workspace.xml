@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e10f4048-0cbe-418d-9676-16c976b76e52" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/DFATEST.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/alphabet2.JPG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/normal.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ShapesLabelsArrows.py" beforeDir="false" afterPath="$PROJECT_DIR$/ShapesLabelsArrows.py" afterDir="false" />
     </list>
@@ -226,7 +229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591282000820</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="ADDITION OF CLASSES FOR THE REPRESENTATION OF THE DFA/ GRAPH AND CREATE OBJECTS&#10;-DETECTING AND FLAG FINAL STATES&#10;-ADD LABELS TO ARROWS&#10;-ADD OUTGOING ARROWS TO STATES&#10;-ADD CONNECTED STATES TO ARROWS&#10;-FIND STARTING NODE&#10;-TRAVERSE GRAPH AND CHECK INPUT IS ACCEPTED&#10;-ADDED INPUT WINDOW FOR TESTING (added exit, quit and stop to recreate the graph)">
+      <created>1591310185316</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1591310185316</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -290,36 +300,37 @@
     <MESSAGE value="ADDITION OF CLASSES FOR THE REPRESENTATION OF THE DFA/ GRAPH AND CREATE OBJECTS&#10;-DETECTING AND FLAG FINAL STATES&#10;-ADD LABELS TO ARROWS&#10;-ADD OUTGOING ARROWS TO STATES&#10;-ADD CONNECTED STATES TO ARROWS&#10;-FIND STARTING NODE" />
     <MESSAGE value="ADDITION OF CLASSES FOR THE REPRESENTATION OF THE DFA/ GRAPH AND CREATE OBJECTS&#10;-DETECTING AND FLAG FINAL STATES&#10;-ADD LABELS TO ARROWS&#10;-ADD OUTGOING ARROWS TO STATES&#10;-ADD CONNECTED STATES TO ARROWS&#10;-FIND STARTING NODE&#10;-TRAVERSE GRAPH AND CHECK INPUT IS ACCEPTED" />
     <MESSAGE value="ADDITION OF CLASSES FOR THE REPRESENTATION OF THE DFA/ GRAPH AND CREATE OBJECTS&#10;-DETECTING AND FLAG FINAL STATES&#10;-ADD LABELS TO ARROWS&#10;-ADD OUTGOING ARROWS TO STATES&#10;-ADD CONNECTED STATES TO ARROWS&#10;-FIND STARTING NODE&#10;-TRAVERSE GRAPH AND CHECK INPUT IS ACCEPTED&#10;-ADDED INPUT WINDOW FOR TESTING" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADDITION OF CLASSES FOR THE REPRESENTATION OF THE DFA/ GRAPH AND CREATE OBJECTS&#10;-DETECTING AND FLAG FINAL STATES&#10;-ADD LABELS TO ARROWS&#10;-ADD OUTGOING ARROWS TO STATES&#10;-ADD CONNECTED STATES TO ARROWS&#10;-FIND STARTING NODE&#10;-TRAVERSE GRAPH AND CHECK INPUT IS ACCEPTED&#10;-ADDED INPUT WINDOW FOR TESTING" />
+    <MESSAGE value="ADDITION OF CLASSES FOR THE REPRESENTATION OF THE DFA/ GRAPH AND CREATE OBJECTS&#10;-DETECTING AND FLAG FINAL STATES&#10;-ADD LABELS TO ARROWS&#10;-ADD OUTGOING ARROWS TO STATES&#10;-ADD CONNECTED STATES TO ARROWS&#10;-FIND STARTING NODE&#10;-TRAVERSE GRAPH AND CHECK INPUT IS ACCEPTED&#10;-ADDED INPUT WINDOW FOR TESTING (added exit, quit and stop to recreate the graph)" />
+    <option name="LAST_COMMIT_MESSAGE" value="ADDITION OF CLASSES FOR THE REPRESENTATION OF THE DFA/ GRAPH AND CREATE OBJECTS&#10;-DETECTING AND FLAG FINAL STATES&#10;-ADD LABELS TO ARROWS&#10;-ADD OUTGOING ARROWS TO STATES&#10;-ADD CONNECTED STATES TO ARROWS&#10;-FIND STARTING NODE&#10;-TRAVERSE GRAPH AND CHECK INPUT IS ACCEPTED&#10;-ADDED INPUT WINDOW FOR TESTING (added exit, quit and stop to recreate the graph)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="358" y="285" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1583606903453">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
     <state x="358" y="285" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.984@0.0.1280.984" timestamp="1583606903453" />
-    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2" timestamp="1591281999914">
+    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2" timestamp="1591310184347">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2/0.0.1280.984@0.0.1280.984" timestamp="1591281999914" />
-    <state width="1253" height="222" key="GridCell.Tab.0.bottom" timestamp="1591309924912">
+    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2/0.0.1280.984@0.0.1280.984" timestamp="1591310184347" />
+    <state width="1253" height="220" key="GridCell.Tab.0.bottom" timestamp="1591334988167">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="222" key="GridCell.Tab.0.bottom/0.0.1280.984@0.0.1280.984" timestamp="1591309924912" />
+    <state width="1253" height="220" key="GridCell.Tab.0.bottom/0.0.1280.984@0.0.1280.984" timestamp="1591334988167" />
     <state width="1190" height="234" key="GridCell.Tab.0.bottom/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
-    <state width="1253" height="222" key="GridCell.Tab.0.center" timestamp="1591309924912">
+    <state width="1253" height="220" key="GridCell.Tab.0.center" timestamp="1591334988167">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="222" key="GridCell.Tab.0.center/0.0.1280.984@0.0.1280.984" timestamp="1591309924912" />
+    <state width="1253" height="220" key="GridCell.Tab.0.center/0.0.1280.984@0.0.1280.984" timestamp="1591334988167" />
     <state width="1190" height="234" key="GridCell.Tab.0.center/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
-    <state width="1253" height="222" key="GridCell.Tab.0.left" timestamp="1591309924912">
+    <state width="1253" height="220" key="GridCell.Tab.0.left" timestamp="1591334988167">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="222" key="GridCell.Tab.0.left/0.0.1280.984@0.0.1280.984" timestamp="1591309924912" />
+    <state width="1253" height="220" key="GridCell.Tab.0.left/0.0.1280.984@0.0.1280.984" timestamp="1591334988167" />
     <state width="1190" height="234" key="GridCell.Tab.0.left/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
-    <state width="1253" height="222" key="GridCell.Tab.0.right" timestamp="1591309924912">
+    <state width="1253" height="220" key="GridCell.Tab.0.right" timestamp="1591334988167">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="222" key="GridCell.Tab.0.right/0.0.1280.984@0.0.1280.984" timestamp="1591309924912" />
+    <state width="1253" height="220" key="GridCell.Tab.0.right/0.0.1280.984@0.0.1280.984" timestamp="1591334988167" />
     <state width="1190" height="234" key="GridCell.Tab.0.right/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
     <state width="1253" height="309" key="GridCell.Tab.1.bottom" timestamp="1590878167249">
       <screen x="0" y="0" width="1280" height="984" />
@@ -341,22 +352,22 @@
       <screen x="0" y="0" width="1280" height="984" />
     </state>
     <state x="28" y="50" key="SettingsEditor/0.0.1280.984@0.0.1280.984" timestamp="1583605847044" />
-    <state x="132" y="163" key="Vcs.Push.Dialog.v2" timestamp="1591282003253">
+    <state x="132" y="163" key="Vcs.Push.Dialog.v2" timestamp="1591310187597">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="132" y="163" key="Vcs.Push.Dialog.v2/0.0.1280.984@0.0.1280.984" timestamp="1591282003253" />
-    <state x="276" y="279" key="com.intellij.ide.util.TipDialog" timestamp="1591308874790">
+    <state x="132" y="163" key="Vcs.Push.Dialog.v2/0.0.1280.984@0.0.1280.984" timestamp="1591310187597" />
+    <state x="276" y="279" key="com.intellij.ide.util.TipDialog" timestamp="1591334168552">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="276" y="279" key="com.intellij.ide.util.TipDialog/0.0.1280.984@0.0.1280.984" timestamp="1591308874790" />
+    <state x="276" y="279" key="com.intellij.ide.util.TipDialog/0.0.1280.984@0.0.1280.984" timestamp="1591334168552" />
     <state x="407" y="392" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591056880221">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
     <state x="407" y="392" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.984@0.0.1280.984" timestamp="1591056880221" />
-    <state x="294" y="54" width="743" height="930" key="find.popup" timestamp="1590922232290">
+    <state x="294" y="54" width="743" height="930" key="find.popup" timestamp="1591331046594">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="294" y="54" width="743" height="930" key="find.popup/0.0.1280.984@0.0.1280.984" timestamp="1590922232290" />
+    <state x="294" y="54" width="743" height="930" key="find.popup/0.0.1280.984@0.0.1280.984" timestamp="1591331046594" />
     <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup" timestamp="1591223702266">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
