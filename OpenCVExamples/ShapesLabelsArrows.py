@@ -17,9 +17,10 @@ def get_connected_components(I, min, max):
     # Threshold
     ret, Ithresh = cv2.threshold(Igray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
-    kernel = np.ones((2, 2), np.uint8)
-    Ithresh= cv2.dilate(Ithresh, kernel, iterations=1)
-    Ithresh  = cv2.morphologyEx(Ithresh , cv2.MORPH_CLOSE, kernel)
+    #kernel = np.ones((2, 2), np.uint8)
+    #Ithresh= cv2.dilate(Ithresh, kernel, iterations=1)
+    #Ithresh  = cv2.morphologyEx(Ithresh , cv2.MORPH_CLOSE, kernel)
+    #Ithresh = cv2.morphologyEx(Ithresh, cv2.MORPH_OPEN, kernel)
 
     # Keep only small components but not to small
     output = cv2.connectedComponentsWithStats(Ithresh)
@@ -402,7 +403,7 @@ def detect_alphabet(labels, alphabet, alpharange):
 
         subS, recS = s
         upperCorner, lowerCorner = recS
-        cv2.putText(img, ""+str(alphaindex), upperCorner, cv2.FONT_HERSHEY_COMPLEX, 0.4, (0, 0, 0), thickness= 2)
+        cv2.putText(img, ""+str(alphaindex), upperCorner, cv2.FONT_HERSHEY_COMPLEX, 0.6, (0, 0, 0), thickness= 2)
 
         newRecs.append((alphaindex, recS))
         countS+=1
