@@ -382,6 +382,9 @@ def detect_alphabet(labels, alphabet, alpharange):
         xw, yh = lowerCorner
         subimages.append((imgL[y:yh, x:xw], rec))
 
+    #sort templates by the x cordinate of the first point in the rec
+    templates.sort(key = lambda x : x[1][0][0] )
+
     mapping = {}
     newRecs = []
     countS = 0
@@ -616,26 +619,27 @@ if __name__ == "__main__":
     
     cv2.namedWindow('Connect')
     cv2.namedWindow('Connect0')
-    cv2.resizeWindow('Connect', 600, 600)
-    cv2.createTrackbar('Max Radius', 'Connect', 0, 1000, nothing)
-    cv2.createTrackbar('Min Radius', 'Connect', 0, 1000, nothing)
-    cv2.createTrackbar('Max Area', 'Connect', 0, 1000, nothing)
-    cv2.createTrackbar('Min Area', 'Connect', 0, 1000, nothing)
-    cv2.createTrackbar('Alphabet', 'Connect', 0, 10000, nothing)
-    cv2.createTrackbar('Circle Off.', 'Connect', 0, 100, nothing)
-    cv2.createTrackbar('Image', 'Connect', 0, 10, nothing)
-    cv2.createTrackbar('Graph', 'Connect', 0, 1, nothing)
+    cv2.namedWindow('Control Panel')
+    cv2.resizeWindow('Control Panel', 600, 400)
+    cv2.createTrackbar('Max Radius', 'Control Panel', 0, 1000, nothing)
+    cv2.createTrackbar('Min Radius', 'Control Panel', 0, 1000, nothing)
+    cv2.createTrackbar('Max Area', 'Control Panel', 0, 1000, nothing)
+    cv2.createTrackbar('Min Area', 'Control Panel', 0, 1000, nothing)
+    cv2.createTrackbar('Alphabet', 'Control Panel', 0, 10000, nothing)
+    cv2.createTrackbar('Circle Off.', 'Control Panel', 0, 100, nothing)
+    cv2.createTrackbar('Image', 'Control Panel', 0, 10, nothing)
+    cv2.createTrackbar('Graph', 'Control Panel', 0, 1, nothing)
 
     while (1):
 
-        maxA = cv2.getTrackbarPos('Max Area', 'Connect')
-        minA = cv2.getTrackbarPos('Min Area', 'Connect')
-        maxR = cv2.getTrackbarPos('Max Radius', 'Connect')
-        minR = cv2.getTrackbarPos('Min Radius', 'Connect')
-        maxAlpha = cv2.getTrackbarPos('Alphabet', 'Connect')
-        offset_between_Cirle = cv2.getTrackbarPos('Circle Off.', 'Connect')
+        maxA = cv2.getTrackbarPos('Max Area', 'Control Panel')
+        minA = cv2.getTrackbarPos('Min Area', 'Control Panel')
+        maxR = cv2.getTrackbarPos('Max Radius', 'Control Panel')
+        minR = cv2.getTrackbarPos('Min Radius', 'Control Panel')
+        maxAlpha = cv2.getTrackbarPos('Alphabet', 'Control Panel')
+        offset_between_Cirle = cv2.getTrackbarPos('Circle Off.', 'Control Panel')
 
-        select = cv2.getTrackbarPos('Image', 'Connect')
+        select = cv2.getTrackbarPos('Image', 'Control Panel')
 
         if select == 0:
             # Read image
@@ -683,7 +687,7 @@ if __name__ == "__main__":
         #map, recs = testaa
         #print(map)
 
-        graph_check = cv2.getTrackbarPos('Graph', 'Connect')
+        graph_check = cv2.getTrackbarPos('Graph', 'Control Panel')
         if graph_check > 0:
             graph = associator(shapes, arrows, newLabels)
             #UPDATE IMAGE WITH NEW INFO
