@@ -609,6 +609,9 @@ if __name__ == "__main__":
         maxAlpha = cv2.getTrackbarPos('Alphabet', 'Control Panel')
         select = cv2.getTrackbarPos('Image', 'Control Panel')
 
+        eff_circle = 0.80
+        state_mask_w = 5
+
         if select == 0:
             # Read image
             img = cv2.imread("statemachineone.jpg")
@@ -646,7 +649,7 @@ if __name__ == "__main__":
         state_Contour = shapes[2]
         for c in state_Contour:
             #change thickness based on the width of lines in the image
-            cv2.drawContours(mask, [c], -1, 0, 5)
+            cv2.drawContours(mask, [c], -1, 0, state_mask_w)
 
         # Combine mask with binary image
         Ithresh = cv2.bitwise_and(Ithresh, Ithresh, mask=mask)
