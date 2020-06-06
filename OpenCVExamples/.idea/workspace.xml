@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e10f4048-0cbe-418d-9676-16c976b76e52" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/GraphDetection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ShapesLabelsArrows.py" beforeDir="false" afterPath="$PROJECT_DIR$/ShapesLabelsArrows.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="OpenCVExamples" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -43,7 +46,28 @@
       <recent name="C:\Users\MG\PycharmProjects\OpenCVExamples" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.ShapesLabelsArrows">
+  <component name="RunManager" selected="Python.GraphDetection">
+    <configuration name="GraphDetection" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="OpenCVExamples" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GraphDetection.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Labels" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="OpenCVExamples" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -107,27 +131,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Shapes_2 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="OpenCVExamples" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Shapes_2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="Shapes&amp;Labels" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="OpenCVExamples" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,11 +154,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.GraphDetection" />
         <item itemvalue="Python.ShapesLabelsArrows" />
         <item itemvalue="Python.Shapes&amp;Labels" />
         <item itemvalue="Python.Labels2" />
         <item itemvalue="Python.Labels" />
-        <item itemvalue="Python.Shapes_2 (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -319,29 +322,29 @@
       <screen x="0" y="0" width="1280" height="984" />
     </state>
     <state x="358" y="285" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.984@0.0.1280.984" timestamp="1583606903453" />
-    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2" timestamp="1591342143336">
+    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2" timestamp="1591378800800">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2/0.0.1280.984@0.0.1280.984" timestamp="1591342143336" />
-    <state width="1253" height="220" key="GridCell.Tab.0.bottom" timestamp="1591378733603">
+    <state x="49" y="36" width="1004" height="921" key="CommitChangelistDialog2/0.0.1280.984@0.0.1280.984" timestamp="1591378800800" />
+    <state width="1253" height="220" key="GridCell.Tab.0.bottom" timestamp="1591469154520">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="220" key="GridCell.Tab.0.bottom/0.0.1280.984@0.0.1280.984" timestamp="1591378733603" />
+    <state width="1253" height="220" key="GridCell.Tab.0.bottom/0.0.1280.984@0.0.1280.984" timestamp="1591469154520" />
     <state width="1190" height="234" key="GridCell.Tab.0.bottom/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
-    <state width="1253" height="220" key="GridCell.Tab.0.center" timestamp="1591378733603">
+    <state width="1253" height="220" key="GridCell.Tab.0.center" timestamp="1591469154520">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="220" key="GridCell.Tab.0.center/0.0.1280.984@0.0.1280.984" timestamp="1591378733603" />
+    <state width="1253" height="220" key="GridCell.Tab.0.center/0.0.1280.984@0.0.1280.984" timestamp="1591469154520" />
     <state width="1190" height="234" key="GridCell.Tab.0.center/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
-    <state width="1253" height="220" key="GridCell.Tab.0.left" timestamp="1591378733603">
+    <state width="1253" height="220" key="GridCell.Tab.0.left" timestamp="1591469154520">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="220" key="GridCell.Tab.0.left/0.0.1280.984@0.0.1280.984" timestamp="1591378733603" />
+    <state width="1253" height="220" key="GridCell.Tab.0.left/0.0.1280.984@0.0.1280.984" timestamp="1591469154520" />
     <state width="1190" height="234" key="GridCell.Tab.0.left/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
-    <state width="1253" height="220" key="GridCell.Tab.0.right" timestamp="1591378733603">
+    <state width="1253" height="220" key="GridCell.Tab.0.right" timestamp="1591469154520">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state width="1253" height="220" key="GridCell.Tab.0.right/0.0.1280.984@0.0.1280.984" timestamp="1591378733603" />
+    <state width="1253" height="220" key="GridCell.Tab.0.right/0.0.1280.984@0.0.1280.984" timestamp="1591469154520" />
     <state width="1190" height="234" key="GridCell.Tab.0.right/63.0.1217.1024@63.0.1217.1024" timestamp="1590923532217" />
     <state width="1253" height="309" key="GridCell.Tab.1.bottom" timestamp="1590878167249">
       <screen x="0" y="0" width="1280" height="984" />
@@ -363,14 +366,14 @@
       <screen x="0" y="0" width="1280" height="984" />
     </state>
     <state x="28" y="50" key="SettingsEditor/0.0.1280.984@0.0.1280.984" timestamp="1583605847044" />
-    <state x="132" y="163" key="Vcs.Push.Dialog.v2" timestamp="1591342147005">
+    <state x="132" y="163" key="Vcs.Push.Dialog.v2" timestamp="1591378804206">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="132" y="163" key="Vcs.Push.Dialog.v2/0.0.1280.984@0.0.1280.984" timestamp="1591342147005" />
-    <state x="276" y="279" key="com.intellij.ide.util.TipDialog" timestamp="1591377779855">
+    <state x="132" y="163" key="Vcs.Push.Dialog.v2/0.0.1280.984@0.0.1280.984" timestamp="1591378804206" />
+    <state x="276" y="279" key="com.intellij.ide.util.TipDialog" timestamp="1591464670184">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
-    <state x="276" y="279" key="com.intellij.ide.util.TipDialog/0.0.1280.984@0.0.1280.984" timestamp="1591377779855" />
+    <state x="276" y="279" key="com.intellij.ide.util.TipDialog/0.0.1280.984@0.0.1280.984" timestamp="1591464670184" />
     <state x="407" y="392" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591056880221">
       <screen x="0" y="0" width="1280" height="984" />
     </state>
