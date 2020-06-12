@@ -83,9 +83,9 @@ def get_connected_components(Ithresh, min, max):
 def get_states(Ithresh, min, max, quality):
 
     # Reduce thickness of the lines
-    kernel = np.ones((2, 2), np.uint8)
-    Ithresh = cv2.dilate(Ithresh, kernel, iterations=1)
-    Ithresh = cv2.erode(Ithresh, kernel, iterations=1)
+    #kernel = np.ones((2, 2), np.uint8)
+    #Ithresh = cv2.dilate(Ithresh, kernel, iterations=1)
+    #Ithresh = cv2.erode(Ithresh, kernel, iterations=1)
 
     contours, hierarchy = cv2.findContours(Ithresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
     #contours = [contours[i] for i in range(len(contours)) if hierarchy[i][3] < 0]
@@ -172,6 +172,15 @@ def midpoint(ptA, ptB):
 def get_arrows(binary):
     Ithresh = np.uint8(binary)
 
+    # Closing possible gaps Arrows
+    # Ithresh = np.uint8(img2)
+    # kernel = np.ones((3, 3), np.uint8)
+    # Ithresh = cv2.morphologyEx(Ithresh, cv2.MORPH_CLOSE, kernel)
+
+    # Arrow Detection
+    # kernel = np.ones((2, 2), np.uint8)
+    # Ithresh = cv2.morphologyEx(Ithresh, cv2.MORPH_OPEN, kernel)
+
     nb_components, output, stats, centroids = cv2.connectedComponentsWithStats(Ithresh)
 
     sizes = stats[1:, -1];
@@ -182,17 +191,6 @@ def get_arrows(binary):
     for i in range(0, nb_components):
         if not (50 >= sizes[i]):
             img2[output == i + 1] = 255
-
-    # Closing possible gaps Arrows
-    Ithresh = np.uint8(img2)
-    kernel = np.ones((3, 3), np.uint8)
-    Ithresh = cv2.morphologyEx(Ithresh, cv2.MORPH_CLOSE, kernel)
-
-    thrash2 = np.float32(Ithresh)
-
-    # Arrow Detection
-    kernel = np.ones((2, 2), np.uint8)
-    Ithresh = cv2.morphologyEx(Ithresh, cv2.MORPH_OPEN, kernel)
 
     contours, _ = cv2.findContours(Ithresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -207,7 +205,7 @@ def get_arrows(binary):
             cx = int(M["m10"] / M["m00"])
             cy = int(M["m01"] / M["m00"])
         else:
-            cX, cY = 0, 0
+            cx, cy = 0, 0
         cv2.circle(img, (cx, cy), 3, (200, 10, 200), -1)
 
         # compute the rotated bounding box of the contour
@@ -262,6 +260,55 @@ def get_arrows(binary):
         cv2.circle(img, (cx, cy), 3, (200, 10, 200), -1)
 
         Arrows.append((start_point, end_point))
+
+    #testing
+    contours, hierarchy = cv2.findContours(Ithresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    for cnt in contours:
+        #cnt = contours[0]
+        hull = cv2.convexHull(cnt, returnPoints=False)
+        defects = cv2.convexityDefects(cnt, hull)
+
+        if defects is not None:
+            for i in range(defects.shape[0]):
+                s, e, f, d = defects[i, 0]
+                start = tuple(cnt[s][0])
+                end = tuple(cnt[e][0])
+                far = tuple(cnt[f][0])
+                cv2.line(cimg, start, end, [0, 255, 0], 2)
+                #cv2.circle(cimg, far, 2, [0, 0, 255], -1)
+
+    """for c in contours:
+        # determine the most extreme points along the contour
+        extLeft = tuple(c[c[:, :, 0].argmin()][0])
+        extRight = tuple(c[c[:, :, 0].argmax()][0])
+        extTop = tuple(c[c[:, :, 1].argmin()][0])
+        extBot = tuple(c[c[:, :, 1].argmax()][0])
+
+        # draw the outline of the object, then draw each of the
+        # extreme points, where the left-most is red, right-most
+        # is green, top-most is blue, and bottom-most is teal
+        cv2.drawContours(cimg, [c], -1, (0, 255, 255), 2)
+        cv2.circle(cimg, extLeft, 2, (0, 0, 255), -1)
+        cv2.circle(cimg, extRight, 2, (0, 255, 0), -1)
+        cv2.circle(cimg, extTop, 2, (255, 0, 0), -1)
+        cv2.circle(cimg, extBot, 2, (255, 255, 0), -1)"""
+
+
+    """
+    # For each contour, find the bounding rectangle and draw it
+    for component in zip(contours, hierarchy):
+        currentContour = component[0]
+        currentHierarchy = component[1]
+        x, y, w, h = cv2.boundingRect(currentContour)
+
+        rect = cv2.minAreaRect(currentContour)
+        box = cv2.boxPoints(rect)  # cv2.boxPoints(rect) for OpenCV 3.x
+        box = np.int0(box)
+"
+        cv2.rectangle(cimg, (x, y), (x + w, y + h), (0, 255, 0), 1)
+        cv2.drawContours(cimg,[box],0,(0,0,255),1)"""
+
+
     return Ithresh, Arrows
 
 
@@ -284,8 +331,6 @@ def compareLables(alpha1, label1):
 
     alpha = alpha.copy()
     alpha = cv2.resize(alpha, (0, 0), fx=xScale, fy=yScale)
-
-    kernel = np.ones((3, 3), np.uint8)
 
     intersect = cv2.bitwise_and(alpha, label)
 
@@ -364,8 +409,8 @@ def detect_alphabet(labels, alphabet, alpharange):
         newRecs.append((alphaindex, recS))
         countS+=1
 
-    cv2.imshow('ConnectL', imgL)
-    cv2.imshow('ConnectAA', imgAA)
+    cv2.imshow('ConnectLabels', imgL)
+    cv2.imshow('ConnectAlphabet', imgAA)
     return mapping, newRecs
 
 
@@ -609,28 +654,44 @@ if __name__ == "__main__":
         maxAlpha = cv2.getTrackbarPos('Alphabet', 'Control Panel')
         select = cv2.getTrackbarPos('Image', 'Control Panel')
 
-        eff_circle = 0.80
+        eff_circle = 0.78
         state_mask_w = 5
 
         if select == 0:
             # Read image
             img = cv2.imread("statemachineone.jpg")
             alphaimg = cv2.imread('alphabet.jpg')
-            eff = 0.78
+            eff = eff_circle
+        elif select == 1:
+            img = cv2.imread("DFATEST.jpg")
+            alphaimg = cv2.imread('alphabet1.jpg')
+            eff = 0.85
         elif select == 2:
             img = cv2.imread("normal.png")
             alphaimg = cv2.imread('alphabet2.jpg')
             eff = 0.68
+
+        elif select == 3:
+            img = cv2.imread("download.png")
+            alphaimg = cv2.imread('alphabet2.jpg')
+            eff = eff_circle
+
         else:
-            img = cv2.imread("DFATEST.jpg")
-            alphaimg = cv2.imread('alphabet1.jpg')
-            eff = 0.85
+            img = cv2.imread("images.png")
+            alphaimg = cv2.imread('alphabet2.jpg')
+            eff = eff_circle
+
 
         # create different copy to use to labels from the circles
         cimg = img.copy()
 
         #return binary for both image
         Ithresh, alphathresh = scanner(img, alphaimg)
+
+        #cv2.imshow('Connect', Ithresh)
+        #cv2.imshow('Connect0', alphathresh)
+        #k = cv2.waitKey(3000000) & 0xFF
+
 
 
         labels = get_connected_components(Ithresh, minA, maxA)
@@ -656,7 +717,7 @@ if __name__ == "__main__":
 
         Ithresh, arrows = get_arrows(Ithresh)
 
-        cv2.imshow('Connect2', Ithresh)
+        cv2.imshow('ConnectArrow', Ithresh)
 
 
 
